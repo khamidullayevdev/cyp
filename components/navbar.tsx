@@ -20,10 +20,10 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import {
   TwitterIcon,
   GithubIcon,
-  DiscordIcon,
   HeartFilledIcon,
   SearchIcon,
   Logo,
+  InstagramIcon,
 } from "@/components/icons";
 
 export const Navbar = () => {
@@ -54,7 +54,7 @@ export const Navbar = () => {
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <Logo />
-            <p className="font-bold text-inherit">ACME</p>
+            <p className="font-bold text-inherit">CYP</p>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
@@ -83,15 +83,14 @@ export const Navbar = () => {
           <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
             <TwitterIcon className="text-default-500" />
           </Link>
-          <Link isExternal aria-label="Discord" href={siteConfig.links.discord}>
-            <DiscordIcon className="text-default-500" />
-          </Link>
           <Link isExternal aria-label="Github" href={siteConfig.links.github}>
             <GithubIcon className="text-default-500" />
           </Link>
+          <Link isExternal aria-label="Github" href={siteConfig.links.github}>
+            <InstagramIcon className="text-default-500" />
+          </Link>
           <ThemeSwitch />
         </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <NavbarItem className="hidden md:flex">
           <Button
             isExternal
@@ -120,13 +119,7 @@ export const Navbar = () => {
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
+                color="foreground"
                 href="#"
                 size="lg"
               >

@@ -9,61 +9,52 @@ export const siteConfig = {
       href: "/",
     },
     {
-      label: "Docs",
-      href: "/docs",
+      label: "About",
+      href: "/about",
     },
     {
-      label: "Pricing",
-      href: "/pricing",
+      label: "Templates",
+      href: "/templates",
     },
     {
-      label: "Blog",
-      href: "/blog",
+      label: "Support",
+      href: "/support",
+    },
+    {
+      label: "Sign Up",
+      href: "/signup",
+    },
+    {
+      label: "Log in",
+      href: "/login",
+    },
+  ],
+  navMenuItems: [
+    {
+      label: "Home",
+      href: "/",
     },
     {
       label: "About",
       href: "/about",
     },
-  ],
-  navMenuItems: [
     {
-      label: "Profile",
-      href: "/profile",
+      label: "Templates",
+      href: "/templates",
     },
     {
-      label: "Dashboard",
-      href: "/dashboard",
+      label: "Sign Up",
+      href: "/signup",
     },
     {
-      label: "Projects",
-      href: "/projects",
-    },
-    {
-      label: "Team",
-      href: "/team",
-    },
-    {
-      label: "Calendar",
-      href: "/calendar",
-    },
-    {
-      label: "Settings",
-      href: "/settings",
-    },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
+      label: "Log in",
+      href: "/login",
     },
   ],
   links: {
     github: "https://github.com/heroui-inc/heroui",
     twitter: "https://twitter.com/hero_ui",
-    docs: "https://heroui.com",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
+    instagram: "https://discord.gg/9b6yyZKmH4",
+    sponsor: "https://www.youtube.com",
   },
 };
