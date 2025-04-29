@@ -1,6 +1,9 @@
+"use client"
+
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import Link from 'next/link';
+import { Checkbox } from '@heroui/react';
 
 const features = [
   {
@@ -17,7 +20,7 @@ const features = [
   },
 ];
 
-export default function LoginPage() {
+export default function SignUpPage() {
   return (
     <div className="flex items-center">
       <div className="w-full flex flex-col md:flex-row gap-8 px-4 py-12">
@@ -39,7 +42,7 @@ export default function LoginPage() {
         {/* O'ng blok */}
         <div className="flex-1 flex justify-center">
           <div className=" rounded-xl shadow-lg p-8 w-full max-w-md">
-            <h2 className="text-3xl font-bold text-white mb-6">Register</h2>
+            <h2 className="text-3xl font-bold text-white mb-6">Log in</h2>
             <button className="w-full flex items-center justify-center gap-2 border border-gray-600 rounded-md py-2 mb-6 text-white transition">
               <FcGoogle className="text-2xl" />
               Continue with google
@@ -51,10 +54,6 @@ export default function LoginPage() {
             </div>
             <form className="flex flex-col gap-4">
               <div>
-                <label className="text-gray-300 text-sm mb-1 block">User name</label>
-                <input type="text" placeholder="John Doe" className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
-              </div>
-              <div>
                 <label className="text-gray-300 text-sm mb-1 block">Your email</label>
                 <input type="email" placeholder="name@company.com" className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
               </div>
@@ -62,15 +61,18 @@ export default function LoginPage() {
                 <label className="text-gray-300 text-sm mb-1 block">Password</label>
                 <input type="password" placeholder="......." className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
               </div>
-              <div>
-                <label className="text-gray-300 text-sm mb-1 block">Confirm password</label>
-                <input type="password" placeholder="......." className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
+
+              <div className='flex w-full justify-between items-center'>
+                <Checkbox>Remember me</Checkbox>
+
+                <Link href={'/forgot-password'} className='text-primary'>Forgot password</Link>
               </div>
-              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md py-2 mt-2 transition">Create an account</button>
+
+              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md py-2 mt-2 transition">Log in</button>
             </form>
             <p className="text-gray-400 text-sm mt-4 text-center">
-              Already have an account?{' '}
-              <Link href="/login" className="text-blue-400 hover:underline">Login here</Link>
+             Don’t have an account yet?{' '}
+              <Link href="/signup" className="text-blue-400 hover:underline">Register here</Link>
             </p>
           </div>
         </div>
