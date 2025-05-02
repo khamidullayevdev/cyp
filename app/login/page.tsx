@@ -55,11 +55,11 @@ export default function SignUpPage() {
             <form className="flex flex-col gap-4">
               <div>
                 <label htmlFor="email" className="text-black dark:text-gray-300 text-sm mb-1 block">Your email</label>
-                <input className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" name='email' placeholder="name@company.com" type="email" />
+                <input className="w-full bg-transparent rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" name='email' placeholder="name@company.com" type="email" />
               </div>
               <div>
                 <label htmlFor="password" className="text-black dark:text-gray-300 text-sm mb-1 block">Password</label>
-                <input className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" name='password' placeholder="......." type="password" />
+                <input className="w-full bg-transparent rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" name='password' placeholder="......." type="password" />
               </div>
 
               <div className='flex w-full justify-between items-center'>
