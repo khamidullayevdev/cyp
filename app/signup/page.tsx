@@ -51,20 +51,20 @@ export default function LoginPage() {
             </div>
             <form className="flex flex-col gap-4">
               <div>
-                <label className="text-black dark:text-gray-300 text-sm mb-1 block">User name</label>
-                <input type="text" placeholder="John Doe" className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
+                <label htmlFor='text' className="text-black dark:text-gray-300 text-sm mb-1 block">User name</label>
+                <input className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" name='text' placeholder="John Doe" type="text" />
               </div>
               <div>
-                <label className="text-black dark:text-gray-300 text-sm mb-1 block">Your email</label>
-                <input type="email" placeholder="name@company.com" className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
+                <label htmlFor='email' className="text-black dark:text-gray-300 text-sm mb-1 block">Your email</label>
+                <input className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" name='email' placeholder="name@company.com" type="email" />
               </div>
               <div>
-                <label className="text-black dark:text-gray-300 text-sm mb-1 block">Password</label>
-                <input type="password" placeholder="......." className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
+                <label htmlFor='password' className="text-black dark:text-gray-300 text-sm mb-1 block">Password</label>
+                <input className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" name='password' placeholder="......." type="password" />
               </div>
               <div>
-                <label className="text-black dark:text-gray-300 text-sm mb-1 block">Confirm password</label>
-                <input type="password" placeholder="......." className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
+                <label htmlFor='password' className="text-black dark:text-gray-300 text-sm mb-1 block">Confirm password</label>
+                <input className="w-full rounded-md border border-gray-700 px-4 py-2 text-white focus:outline-none focus:border-blue-500" name='password' placeholder="......." type="password" />
               </div>
               <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md py-2 mt-2 transition">Create an account</button>
             </form>
