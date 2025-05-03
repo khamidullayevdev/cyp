@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -14,6 +16,9 @@ import { Input } from "@heroui/input";
 import { link as linkStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
@@ -25,8 +30,32 @@ import {
   Logo,
   InstagramIcon,
 } from "@/components/icons";
+import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
 
 export const Navbar = () => {
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
+      if (!token) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+      const { data, error } = await supabase.auth.getUser(token);
+      if (error || !data.user) {
+        setUser(null);
+      } else {
+        setUser(data.user);
+      }
+      setLoading(false);
+    };
+    checkUser();
+  }, []);
+
   const searchInput = (
     <Input
       aria-label="Search"
@@ -103,6 +132,40 @@ export const Navbar = () => {
             Sponsor
           </Button>
         </NavbarItem>
+
+        {(user) ? (
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="secondary"
+                name={user.user_metadata?.full_name || user.email}
+                size="sm"
+                src={user.user_metadata?.avatar_url || `https://i.pravatar.cc/150?u=${user.id}`}
+              />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="profile" className="h-14 gap-2">
+                <p className="font-semibold">Signed in as</p>
+                <p className="font-semibold">{user.email}</p>
+              </DropdownItem>
+              <DropdownItem key="myprofile" onClick={() => router.push('/profile')}>My Profile</DropdownItem>
+              <DropdownItem key="settings" onClick={() => router.push('/profile/settings')}>Settings</DropdownItem>
+              <DropdownItem key="myportfolios" onClick={() => router.push('/profile/portfolios')}>My Portfolios</DropdownItem>
+              <DropdownItem key="help_and_feedback" onClick={() => router.push('/help-feedback')}>Help & Feedback</DropdownItem>
+              <DropdownItem key="logout" color="danger" onClick={() => { localStorage.removeItem('access_token'); window.location.reload(); }}>Log Out</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        ) : (
+          <NavbarItem className="hidden md:flex">
+            <Button as={NextLink} href="/login" color="primary" variant="flat">
+              Log in
+            </Button>
+          </NavbarItem>
+        )}
+
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
@@ -120,7 +183,7 @@ export const Navbar = () => {
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 color="foreground"
-                href="#"
+                href={item.href}
                 size="lg"
               >
                 {item.label}
@@ -129,6 +192,8 @@ export const Navbar = () => {
           ))}
         </div>
       </NavbarMenu>
+
+
     </HeroUINavbar>
   );
 };
