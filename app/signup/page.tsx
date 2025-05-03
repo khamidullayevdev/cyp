@@ -42,7 +42,7 @@ export default function SignupPage() {
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: typeof window !== 'undefined' ? window.location.origin + '/login' : undefined,
+        emailRedirectTo: 'https://cyp-roan.vercel.app/login',
       },
     });
     setLoading(false);
