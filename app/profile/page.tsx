@@ -38,7 +38,7 @@ export default function ProfilePage() {
       <div className="w-full max-w-4xl bg-gray-100 dark:bg-[#232b3e] rounded-xl p-8 shadow-md flex flex-col gap-4">
         <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Your portfolios:</h2>
         <div className="flex items-center gap-4">
-          <span className="bg-yellow-700/80 text-yellow-100 px-3 py-1 rounded font-medium">You don't have portfolio let's create it</span>
+          <span className="bg-yellow-700/80 text-yellow-100 px-3 py-1 rounded font-medium">You don&apos;t have portfolio let&apos;s create it</span>
           <Link href="/templates" className="text-primary-600 dark:text-primary-400 font-semibold hover:underline">CREATE PORTFOLIO</Link>
         </div>
       </div>
