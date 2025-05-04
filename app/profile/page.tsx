@@ -42,7 +42,7 @@ export default function ProfilePage() {
     <div className="min-h-[60vh] flex flex-col items-center justify-start pt-12 transition-colors duration-300">
       <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900 dark:text-white text-center">Welcome {user.user_metadata?.full_name || 'username'}</h1>
       <p className="text-lg text-gray-500 dark:text-gray-300 mb-8 text-center">{user.email}</p>
-      <div className="w-full max-w-4xl bg-gray-100 dark:bg-[#232b3e] rounded-xl p-8 shadow-md flex flex-col gap-4">
+      <div className="w-full max-w-4xl bg-gray-100 dark:bg-[#0f121a] rounded-xl p-8 shadow-md flex flex-col gap-4">
         <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Your portfolios:</h2>
         <div className="flex items-center gap-4">
           <span className="bg-yellow-700/80 text-yellow-100 px-3 py-1 rounded font-medium">You don&apos;t have portfolio let&apos;s create it</span>
