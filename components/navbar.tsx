@@ -45,7 +45,13 @@ export const Navbar = () => {
         setLoading(false);
         return;
       }
-      const { data, error } = await supabase.auth.getUser(token);
+
+      await supabase.auth.setSession({
+        access_token: token,
+        refresh_token: localStorage.getItem('refresh_token') || '', // optional
+      });
+      
+      const { data, error } = await supabase.auth.getUser();
       if (error || !data.user) {
         setUser(null);
       } else {
