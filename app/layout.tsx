@@ -38,7 +38,7 @@ export default function RootLayout({
           fontMontserrat.variable,
         )}
       >
-        <LayoutComponent children={children} />
+        <LayoutComponent>{children}</LayoutComponent>
       </body>
     </html>
   );
