@@ -59,7 +59,7 @@ export default function Template() {
       <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
         {filteredList.map((item, index) => (
           <Card key={item.id} isPressable shadow="sm" onPress={() => {
-            router.push(`/template/${item.name}`);
+            router.push(`/template/${item.name}?id=${item.id}`);
           }}>
             <CardBody className="overflow-visible p-0">
               <Image

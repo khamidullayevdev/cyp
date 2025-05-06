@@ -4,7 +4,7 @@ import Image from 'next/image';
 import navLogo from './assets/logo.png'
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 type Education = {
   date: string;
@@ -38,6 +38,9 @@ type PortfolioData = {
 };
 
 export default function Retro() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+  
   const [portfolioData, setPortfolioData] = useState<PortfolioData>({
     name: "",
     position: "",
@@ -124,6 +127,7 @@ export default function Retro() {
         .insert([
           {
             user_id: data.user.id,
+            template_id: id,
             name: portfolioData.name,
             position: portfolioData.position,
             about: portfolioData.about,
