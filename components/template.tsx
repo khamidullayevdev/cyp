@@ -64,7 +64,7 @@ export default function Template() {
             <CardBody className="overflow-visible p-0">
               <Image
                 alt={item.name}
-                className="w-full object-cover h-[140px]"
+                className="w-full object-cover h-[240px]"
                 radius="lg"
                 shadow="sm"
                 src={`${item.img}`}
