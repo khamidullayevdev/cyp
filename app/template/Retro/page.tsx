@@ -4,6 +4,7 @@ import Image from 'next/image';
 import navLogo from './assets/logo.png'
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 type Education = {
   date: string;
@@ -64,6 +65,7 @@ export default function Retro() {
   });
   
   const [userId, setUserId] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const getUser = async () => {
@@ -101,12 +103,27 @@ export default function Retro() {
   }
   
   const handleSubmit = async () => {
+    // 1. Access tokenni localStorage dan o'qish
+    const accessToken = localStorage.getItem('access_token'); // yoki sizning Supabase instance nomi bo'yicha
+    if (!accessToken) {
+      router.push('/login');
+      return;
+    }
+
+    // 2. Supabase orqali userni tekshirish
+    const { data, error } = await supabase.auth.getUser(accessToken);
+    if (error || !data?.user) {
+      router.push('/login');
+      return;
+    }
+
+    // 3. User mavjud bo'lsa, portfolio yaratish
     try {
-      const { data, error } = await supabase
-        .from('portfolios') // Your table name
+      const { error: insertError } = await supabase
+        .from('portfolios')
         .insert([
           {
-            user_id: userId, // Replace with the actual user ID (e.g., from Auth)
+            user_id: data.user.id,
             name: portfolioData.name,
             position: portfolioData.position,
             about: portfolioData.about,
@@ -117,13 +134,13 @@ export default function Retro() {
           },
         ]);
 
-      if (error) {
-        throw new Error(error.message);
+      if (insertError) {
+        throw new Error(insertError.message);
       }
 
       alert('Portfolio created successfully!');
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       alert('Error creating portfolio');
     }
   };
