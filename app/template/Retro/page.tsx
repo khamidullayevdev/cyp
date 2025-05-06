@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import navLogo from './assets/logo.png'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 
 type Education = {
   date: string;
@@ -62,6 +63,17 @@ export default function Retro() {
     ],
   });
   
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (data?.user) setUserId(data.user.id);
+      else setUserId(null);
+    };
+    getUser();
+  }, []);
+
   // General inputlar uchun
   function handleGeneralChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -87,11 +99,39 @@ export default function Retro() {
       ),
     }));
   }
+  
+  const handleSubmit = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('portfolios') // Your table name
+        .insert([
+          {
+            user_id: userId, // Replace with the actual user ID (e.g., from Auth)
+            name: portfolioData.name,
+            position: portfolioData.position,
+            about: portfolioData.about,
+            education: portfolioData.education,
+            skills: portfolioData.skills,
+            contact: portfolioData.contact,
+            projects: portfolioData.projects,
+          },
+        ]);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      alert('Portfolio created successfully!');
+    } catch (error) {
+      console.error(error);
+      alert('Error creating portfolio');
+    }
+  };
 
   return (
     <>
       <div className='bg-gray-100 !font-montserrat'>
-        <button className=" bg-gray-800 fixed z-50 left-[50%] translate-x-[-50%] top-[5%] border focus:outline-none focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-600 ">Create Portfolio</button>
+        <button onClick={handleSubmit} className=" bg-gray-800 fixed z-50 left-[50%] translate-x-[-50%] top-[5%] border focus:outline-none focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-600 ">Create Portfolio</button>
         <section className="pt-10 md:pt-16">
           <div className="w-[100%] max-w-[1200px] mx-auto px-[50px]">
             <nav className="flex items-center justify-between mb-40">
