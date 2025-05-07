@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import navLogo from './assets/logo.png'
+import homeImg from './assets/cosmonaft.png';
 import React, { useState, useEffect} from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -29,7 +30,7 @@ type Project = {
 
 type PortfolioData = {
   name: string;
-  position: string;
+  job_position: string;
   about: string;
   education: Education[];
   skills: Skill[];
@@ -43,7 +44,7 @@ export function Retro() {
   
   const [portfolioData, setPortfolioData] = useState<PortfolioData>({
     name: "",
-    position: "",
+    job_position: "",
     about: "",
     education: [
       { date: "", description: "" },
@@ -129,7 +130,7 @@ export function Retro() {
             user_id: data.user.id,
             template_id: id,
             name: portfolioData.name,
-            position: portfolioData.position,
+            job_position: portfolioData.job_position,
             about: portfolioData.about,
             education: portfolioData.education,
             skills: portfolioData.skills,
@@ -162,7 +163,7 @@ export function Retro() {
             <div className="text-center w-full">
               <div className="flex justify-center mb-16">
                 <div className='w-[400px] h-[400px] rounded-[50%] bg-slate-400'>
-                  {/* <img className='w-full h-full object-cover rounded-[50%] scale-75' src={homeImg} alt="Home" /> */}
+                  <Image className='w-full h-full object-cover rounded-[50%] scale-75' src={homeImg} alt="Home" />
                 </div>
               </div>
 
@@ -178,8 +179,8 @@ export function Retro() {
                 type="text"
                 className='font-normal text-gray-900 text-4xl md:text-7xl leading-none mb-8 bg-[transparent] border-none outline-none text-center w-full'
                 placeholder='Junior Frontend Dev'
-                value={portfolioData.position}
-                onChange={(e) => handleGeneralChange(e, "position")}
+                value={portfolioData.job_position}
+                onChange={(e) => handleGeneralChange(e, "job_position")}
               />
 
               <textarea

@@ -8,20 +8,20 @@ import { Providers } from '@/app/providers';
 
 const LayoutComponent = ({children,}: {children: React.ReactNode;}) => {
     const pathname = usePathname();
-    const isTemplatePage = pathname.startsWith("/template/");
+    const isHiddenLayoutPage = pathname.startsWith("/template/") || pathname.startsWith("/portfolio");
 
-      return (
+    return (
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
             <div className="relative flex flex-col h-screen">
-                {!isTemplatePage && <Navbar />}
-                {!isTemplatePage ? (
+                {!isHiddenLayoutPage && <Navbar />}
+                {!isHiddenLayoutPage ? (
                     <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-                    {children}
+                        {children}
                     </main>
                 ) : (
                     <>{children}</>
                 )}
-                {!isTemplatePage && <Footer />}
+                {!isHiddenLayoutPage && <Footer />}
             </div>
         </Providers>
     )
