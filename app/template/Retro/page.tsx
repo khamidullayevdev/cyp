@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import navLogo from './assets/logo.png'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -37,7 +37,15 @@ type PortfolioData = {
   projects: Project[];
 };
 
-export default function Retro() {
+export default function RetroPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Retro />
+    </Suspense>
+  );
+}
+
+export function Retro() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   
