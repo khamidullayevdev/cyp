@@ -16,7 +16,6 @@ export default function Template() {
     const fetchTemplates = async () => {
       setLoading(true);
       const { data, error } = await supabase.from('templates').select('*');
-      console.log(data)
       if (!error && data) {
         setList(data);
       }

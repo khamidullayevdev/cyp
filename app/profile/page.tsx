@@ -8,10 +8,11 @@ import { Card, CardBody, CardFooter, Image } from '@heroui/react';
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [templateIds, setTemplateIds] = useState<number[]>([]);
+  const [templateIds, setTemplateIds] = useState<{ template_id: string, portfolio_id: string }[]>([]);
   const [templates, setTemplates] = useState<any[]>([]);
   const [templatesLoading, setTemplatesLoading] = useState(true);
   const router = useRouter();
+
 
   useEffect(() => {
     const checkUser = async () => {
@@ -45,7 +46,10 @@ export default function ProfilePage() {
         .rpc('get_template_ids_by_user_id', { user_id: user.id });
 
       if (!error && data) {
-        setTemplateIds(data.map((row: any) => row.template_id));
+        setTemplateIds(data.map((row: any) => ({
+          template_id: row.template_id,
+          portfolio_id: row.portfolio_id // yoki row.id
+        })));
       }
     };
     fetchTemplateIds();
@@ -59,8 +63,9 @@ export default function ProfilePage() {
     }
     setTemplatesLoading(true);
     const fetchTemplates = async () => {
-      const templatePromises = templateIds.map((id: number) =>
-        supabase.rpc('get_template_by_id', { template_id: id }).then(res => res.data?.[0])
+      const templatePromises = templateIds.map((item) =>
+        supabase.rpc('get_template_by_id', { template_id: item.template_id })
+          .then(res => ({ ...res.data?.[0], portfolio_id: item.portfolio_id }))
       );
       const templatesData = await Promise.all(templatePromises);
       setTemplates(templatesData.filter(Boolean));
@@ -86,7 +91,7 @@ export default function ProfilePage() {
               isPressable
               shadow="sm"
               onPress={() => {
-                router.push(`/template/${item.name}?id=${item.id}`);
+                router.push(`/portfolio?template_name=${item.name}&pId=${item.portfolio_id}`);
               }}
             >
               <CardBody className="overflow-visible p-0">
