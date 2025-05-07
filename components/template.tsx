@@ -5,6 +5,7 @@ import { Card, CardBody, CardFooter, Image } from "@heroui/react";
 import { Tabs, Tab } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
+import Loading from "./loading";
 
 export default function Template() {
   const [selectedTab, setSelectedTab] = useState("All");
@@ -36,7 +37,7 @@ export default function Template() {
   });
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

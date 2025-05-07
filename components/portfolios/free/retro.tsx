@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
+import Loading from '@/components/loading';
 
 export default function Retro() {
   const searchParams = useSearchParams();
@@ -24,7 +25,7 @@ export default function Retro() {
   }, [pId]);
 
   if (!portfolio) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

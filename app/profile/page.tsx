@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
 import Link from 'next/link';
 import { Card, CardBody, CardFooter, Image } from '@heroui/react';
+import Loading from '@/components/loading';
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
@@ -75,7 +76,7 @@ export default function ProfilePage() {
   }, [user, templateIds]);
 
   if (loading || templatesLoading) {
-    return <div className="flex items-center justify-center min-h-[60vh] text-gray-700 dark:text-gray-200">Loading...</div>;
+    return <Loading />
   }
 
   return (
