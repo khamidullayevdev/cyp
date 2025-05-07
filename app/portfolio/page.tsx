@@ -1,10 +1,13 @@
+import Loading from '@/components/loading'
 import Retro from '@/components/portfolios/free/retro'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const PortfolioPage = () => {
   return (
     <section>
-      <Retro />
+      <Suspense fallback={<Loading />} >
+        <Retro />
+      </Suspense>
     </section>
   )
 }
