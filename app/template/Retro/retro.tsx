@@ -18,7 +18,7 @@ type Skill = {
 };
 
 type Contact = {
-  contact_type: "Email" | "Phone" | "Telegram"; // yoki string bo'lishi mumkin
+  contact_type: "Email" | "Phone" | "Telegram";
   description: string;
 };
 
@@ -80,7 +80,6 @@ export function Retro() {
     getUser();
   }, []);
 
-  // General inputlar uchun
   function handleGeneralChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: string
@@ -91,7 +90,6 @@ export function Retro() {
     }));
   }
 
-  // Massiv (education, skills, contact, projects) uchun
   function handleInputChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     section: "education" | "skills" | "contact" | "projects",
@@ -107,27 +105,38 @@ export function Retro() {
   }
   
   const handleSubmit = async () => {
-    // 1. Access tokenni localStorage dan o'qish
-    const accessToken = localStorage.getItem('access_token'); // yoki sizning Supabase instance nomi bo'yicha
+    const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
       router.push('/login');
       return;
     }
 
-    // 2. Supabase orqali userni tekshirish
-    const { data, error } = await supabase.auth.getUser(accessToken);
-    if (error || !data?.user) {
+    const { data: userData, error: userError } = await supabase.auth.getUser(accessToken);
+    if (userError || !userData?.user) {
       router.push('/login');
       return;
     }
 
-    // 3. User mavjud bo'lsa, portfolio yaratish
     try {
+      // First check if user already has a portfolio
+      const { data: existingPortfolios, error: fetchError } = await supabase
+        .from('portfolios')
+        .select('*')
+        .eq('user_id', userData.user.id);
+
+      if (fetchError) throw new Error(fetchError.message);
+
+      if (existingPortfolios && existingPortfolios.length > 0) {
+        alert('Your limit is full. You can only create one portfolio.');
+        return;
+      }
+
+      // If no existing portfolio, create a new one
       const { error: insertError } = await supabase
         .from('portfolios')
         .insert([
           {
-            user_id: data.user.id,
+            user_id: userData.user.id,
             template_id: id,
             name: portfolioData.name,
             job_position: portfolioData.job_position,
@@ -146,7 +155,7 @@ export function Retro() {
       alert('Portfolio created successfully!');
     } catch (err) {
       console.error(err);
-      alert('Error creating portfolio');
+      alert(err instanceof Error ? err.message : 'Error creating portfolio');
     }
   };
 
