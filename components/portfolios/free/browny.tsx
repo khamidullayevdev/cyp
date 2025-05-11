@@ -60,7 +60,7 @@ const Browny = () => {
           Hello <span className="text-8xl">👋</span>
         </h1>
         <h2 className="text-3xl sm:text-5xl md:text-7xl font-medium mb-6 max-w-[60rem]">
-          I'm Chetan Verma - curious designer and devloper<br />
+          I am Chetan Verma - curious designer and devloper<br />
           based in New Delhi, India.
         </h2>
         <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-10">
@@ -120,7 +120,7 @@ const Browny = () => {
 
       <section>
         <div className="container mx-auto px-4 py-20 text-black flex flex-col items-center justify-center">
-          <h2 className="text-5xl sm:text-7xl md:text-8xl font-bold text-center mb-8 leading-tight">LET'S WORK<br />TOGETHER</h2>
+          <h2 className="text-5xl sm:text-7xl md:text-8xl font-bold text-center mb-8 leading-tight">LET&apos;S WORK<br />TOGETHER</h2>
           <a href="https://calendly.com" className="bg-black text-white px-6 py-3 rounded-lg font-semibold text-lg mb-10 hover:bg-[#b539c5] transition-colors">Schedule a call</a>
           <div className="flex flex-wrap gap-8 justify-center text-lg text-black w-full mt-4">
             <a href="https://github.com" className="hover:underline">Github</a>
