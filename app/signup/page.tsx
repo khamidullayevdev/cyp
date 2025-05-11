@@ -42,7 +42,7 @@ export default function SignupPage() {
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: 'https://cyp-roan.vercel.app/login',
+        emailRedirectTo: 'https://cyp-roan.vercel.app/auth/callback',
       },
     });
     setLoading(false);
