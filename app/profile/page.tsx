@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
 import Link from 'next/link';
+import { X } from 'lucide-react'; 
 import { Card, CardBody, CardFooter, Image } from '@heroui/react';
 import Loading from '@/components/loading';
 
@@ -13,7 +14,6 @@ export default function ProfilePage() {
   const [templates, setTemplates] = useState<any[]>([]);
   const [templatesLoading, setTemplatesLoading] = useState(true);
   const router = useRouter();
-
 
   useEffect(() => {
     const checkUser = async () => {
@@ -38,6 +38,7 @@ export default function ProfilePage() {
       setLoading(false);
     };
     checkUser();
+
   }, [router]);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export default function ProfilePage() {
           template_id: row.template_id,
           portfolio_id: row.portfolio_id // yoki row.id
         })));
+        console.log(data)
       }
     };
     fetchTemplateIds();
@@ -66,7 +68,7 @@ export default function ProfilePage() {
     const fetchTemplates = async () => {
       const templatePromises = templateIds.map((item) =>
         supabase.rpc('get_template_by_id', { template_id: item.template_id })
-          .then(res => ({ ...res.data?.[0], portfolio_id: item.portfolio_id }))
+        .then(res => {return { ...res.data?.[0], portfolio_id: item.portfolio_id }})
       );
       const templatesData = await Promise.all(templatePromises);
       setTemplates(templatesData.filter(Boolean));
@@ -74,6 +76,24 @@ export default function ProfilePage() {
     };
     fetchTemplates();
   }, [user, templateIds]);
+
+  const handleDelete = async (portfolioId: string) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this portfolio?');
+    if (!confirmDelete) return;
+  
+    const { error } = await supabase.rpc('delete_portfolio_by_user_and_id', {
+      p_user_id: user.id,
+      p_portfolio_id: portfolioId,
+    });
+  
+    if (error) {
+      alert('Error deleting portfolio: ' + error.message);
+      return;
+    }
+  
+    // O‘chirilgan portfolioni templates dan ham olib tashlash
+    setTemplates(prev => prev.filter(t => t.portfolio_id !== portfolioId));
+  };
 
   if (loading || templatesLoading) {
     return <Loading />
@@ -86,9 +106,19 @@ export default function ProfilePage() {
       <div className="w-full bg-gray-100 dark:bg-[#0f121a] rounded-xl p-8 shadow-md flex flex-col gap-4">
         <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Your portfolios:</h2>
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-3 mt-6">
-          {templates.map((item, index) => (
+        {templates.map((item, index) => (
+          <div className="relative" key={`${item.id}-${index}`}>
+            {/* Delete Button */}
+            <button
+              onClick={() => handleDelete(item.portfolio_id)}
+              className="absolute top-2 right-2 z-[10] bg-red-500 hover:bg-red-600 text-white rounded-full p-1"
+              title="Delete Portfolio"
+            >
+              <X size={16} />
+            </button>
+
             <Card
-              key={`${item.id}-${index}`}
+              className='z-[1]'
               isPressable
               shadow="sm"
               onPress={() => {
@@ -97,7 +127,7 @@ export default function ProfilePage() {
             >
               <CardBody className="overflow-visible p-0">
                 <Image
-                  alt={item.name}
+                  alt={item.dtext}
                   className="w-full object-cover h-[240px]"
                   radius="lg"
                   shadow="sm"
@@ -106,13 +136,14 @@ export default function ProfilePage() {
                 />
               </CardBody>
               <CardFooter className="text-small justify-between">
-                <b>{item.name}</b>
+                <b>{item.dtext}</b>
                 <p className="text-default-500 capitalize">
-                  {item.price == 'free' ? 'Free' : `${item.price}$`}
+                  {item.price === 'free' ? 'Free' : `${item.price}$`}
                 </p>
               </CardFooter>
             </Card>
-          ))}
+          </div>
+        ))}
         </div>
         {!templates &&
           <div className="flex items-center gap-4">

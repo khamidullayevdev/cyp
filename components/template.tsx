@@ -63,7 +63,7 @@ export default function Template() {
           }}>
             <CardBody className="overflow-visible p-0">
               <Image
-                alt={item.name}
+                alt={item.dtext}
                 className="w-full object-cover h-[240px]"
                 radius="lg"
                 shadow="sm"
@@ -72,7 +72,7 @@ export default function Template() {
               />
             </CardBody>
             <CardFooter className="text-small justify-between">
-              <b>{item.name}</b>
+              <b>{item.dtext}</b>
               <p className="text-default-500 capitalize">{item.price == 'free' ? 'Free' : `${item.price}$`}</p>
             </CardFooter>
           </Card>
