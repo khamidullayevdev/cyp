@@ -5,6 +5,36 @@ import React, { useState } from 'react'
 
 const Browny = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [heroTitle, setHeroTitle] = useState('I am Chetan Verma - curious designer and devloper')
+  const [heroDesc, setHeroDesc] = useState('based in New Delhi, India.')
+  const [projects, setProjects] = useState([
+    {
+      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+      name: `Project One's Test`,
+      category: 'Web Design',
+      desc: 'Project One description',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80',
+      name: 'Project Two',
+      category: 'Web Development',
+      desc: 'Project Two description',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80',
+      name: 'Project Three',
+      category: 'Web Development',
+      desc: 'Project Three description',
+    },
+  ])
+  const [aboutMeText, setAboutMeText] = useState('If you are an entrepreneur, you know that your success cannot depend on the opinions of others. Like the wind, opinions change. Like the weather, opinions change frequently. To succeed at any endeavor, you must stay the course, no matter what the cost.');
+  const [scheduleUrl, setScheduleUrl] = useState('https://schedule a call.com');
+  const [socialLinks, setSocialLinks] = useState([
+    { title: 'Github', url: 'https://github.com' },
+    { title: 'Linkedin', url: 'https://linkedin.com' },
+    { title: 'Twitter', url: 'https://twitter.com' },
+    { title: 'Email', url: 'mailto:email@example.com' },
+  ]);
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-purple-100 to-white">
@@ -59,40 +89,63 @@ const Browny = () => {
         <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold mb-6 flex items-center gap-2">
           Hello <span className="text-8xl">👋</span>
         </h1>
-        <h2 className="text-3xl sm:text-5xl md:text-7xl font-medium mb-6 max-w-[60rem]">
-          I am Chetan Verma - curious designer and devloper<br />
-          based in New Delhi, India.
-        </h2>
+        <textarea
+          value={heroTitle}
+          onChange={e => setHeroTitle(e.target.value)}
+          className="text-3xl sm:text-5xl md:text-7xl font-medium mb-4 max-w-[60rem] bg-transparent border-b border-gray-300 focus:outline-none focus:border-[#b539c5] w-full resize-none"
+          rows={2}
+        />
+        <textarea
+          value={heroDesc}
+          onChange={e => setHeroDesc(e.target.value)}
+          className="text-lg sm:text-xl md:text-2xl mb-6 max-w-[60rem] bg-transparent border-b border-gray-300 focus:outline-none focus:border-[#b539c5] w-full resize-none"
+          rows={2}
+        />
         <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-10">
-          <a href="https://github.com" className="hover:underline">Github</a>
-          <a href="https://linkedin.com" className="hover:underline">LinkedIn</a>
-          <a href="https://twitter.com" className="hover:underline">Twitter</a>
-          <a href="mailto:email@example.com" className="hover:underline">Email</a>
+          {socialLinks.map((link, idx) => (
+            <a key={idx} href={link.url} className="hover:underline" target="_blank" rel="noopener noreferrer">{link.title}</a>
+          ))}
         </div>
         <div className="text-lg font-medium mb-10">Work.</div>
         {/* Projects grid */}
         <div className="w-full flex items-center justify-around flex-wrap gap-10 max-w-6xl mx-auto">
-          <div className="w-[420px] md:w-[540px] flex flex-col">
-            <Image  width={420} height={320} src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Project One" className="mb-2 rounded-xl w-full h-80 object-cover" />
-            <div>
-              <h3 className="text-3xl font-semibold">Project One&apos;s Test</h3>
-              <p className="text-gray-500 text-md">Web Design</p>
+          {projects.map((project, idx) => (
+            <div key={idx} className="rounded-xl w-[540px] p-0 flex flex-col">
+              <Image width={420} height={320} src={project.image} alt={project.name} className="mb-2 rounded-xl w-full h-80 object-cover" />
+              <div className="py-6">
+                <textarea
+                  value={project.name}
+                  onChange={e => {
+                    const newProjects = [...projects];
+                    newProjects[idx].name = e.target.value;
+                    setProjects(newProjects);
+                  }}
+                  className="text-3xl font-semibold mb-2 bg-transparent border-b border-gray-300 focus:outline-none focus:border-[#b539c5] w-full resize-none"
+                  rows={2}
+                />
+                <textarea
+                  value={project.category}
+                  onChange={e => {
+                    const newProjects = [...projects];
+                    newProjects[idx].category = e.target.value;
+                    setProjects(newProjects);
+                  }}
+                  className="text-gray-500 text-md mb-2 bg-transparent border-b border-gray-300 focus:outline-none focus:border-[#b539c5] w-full resize-none"
+                  rows={2}
+                />
+                <textarea
+                  value={project.desc}
+                  onChange={e => {
+                    const newProjects = [...projects];
+                    newProjects[idx].desc = e.target.value;
+                    setProjects(newProjects);
+                  }}
+                  className="text-gray-500 text-md bg-transparent border-b border-gray-300 focus:outline-none focus:border-[#b539c5] w-full resize-none mt-2"
+                  rows={3}
+                />
+              </div>
             </div>
-          </div>
-          <div className="w-[420px] md:w-[540px] flex flex-col">
-            <Image  width={420} height={320} src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Project Two" className="mb-2 rounded-xl w-full h-80 object-cover" />
-            <div>
-              <h3 className="text-3xl font-semibold">Project Two</h3>
-              <p className="text-gray-500 text-md">Web Development</p>
-            </div>
-          </div>
-          <div className="w-[420px] md:w-[540px] flex flex-col">
-            <Image  width={420} height={320} src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Project Two" className="mb-2 rounded-xl w-full h-80 object-cover" />
-            <div>
-              <h3 className="text-3xl font-semibold">Project Two</h3>
-              <p className="text-gray-500 text-md">Web Development</p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -104,7 +157,12 @@ const Browny = () => {
           <div className="flex-1 max-w-xl">
             <div className="uppercase text-[#d48fa6] tracking-widest text-sm mb-2">Peaches</div>
             <h2 className="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900">ABOUT <span className="text-black">ME</span></h2>
-            <p className="text-gray-500 text-lg mb-8">If you are an entrepreneur, you know that your success cannot depend on the opinions of others. Like the wind, opinions change. Like the weather, opinions change frequently. To succeed at any endeavor, you must stay the course, no matter what the cost.</p>
+            <textarea
+              value={aboutMeText}
+              onChange={e => setAboutMeText(e.target.value)}
+              className="text-gray-500 text-lg mb-8 bg-transparent border-b border-gray-300 focus:outline-none focus:border-[#b539c5] w-full resize-none"
+              rows={4}
+            />
             <div className="border-b border-[#f3b6c2] w-24 mb-2"></div>
           </div>
           {/* O'ng qism - rasm */}
@@ -121,12 +179,54 @@ const Browny = () => {
       <section>
         <div className="container mx-auto px-4 py-20 text-black flex flex-col items-center justify-center">
           <h2 className="text-5xl sm:text-7xl md:text-8xl font-bold text-center mb-8 leading-tight">LET&apos;S WORK<br />TOGETHER</h2>
-          <a href="https://calendly.com" className="bg-black text-white px-6 py-3 rounded-lg font-semibold text-lg mb-10 hover:bg-[#b539c5] transition-colors">Schedule a call</a>
+          <input
+            type="text"
+            value={scheduleUrl}
+            onChange={e => setScheduleUrl(e.target.value)}
+            className="mb-4 px-4 py-2 border-b border-gray-300 focus:outline-none focus:border-[#b539c5] w-full max-w-md text-lg text-center bg-transparent"
+            placeholder="Schedule uchun URL kiriting"
+          />
+          <a
+            href={scheduleUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-black text-white px-6 py-3 rounded-lg font-semibold text-lg mb-10 hover:bg-[#b539c5] transition-colors"
+          >
+            Schedule a call
+          </a>
           <div className="flex flex-wrap gap-8 justify-center text-lg text-black w-full mt-4">
-            <a href="https://github.com" className="hover:underline">Github</a>
-            <a href="https://linkedin.com" className="hover:underline">LinkedIn</a>
-            <a href="https://twitter.com" className="hover:underline">Twitter</a>
-            <a href="mailto:email@example.com" className="hover:underline">Email</a>
+            {socialLinks.map((link, idx) => (
+              <a key={idx} href={link.url} className="hover:underline" target="_blank" rel="noopener noreferrer">{link.title}</a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Social links inputlar */}
+      <section className="w-full text-black py-8">
+        <div className="container mx-auto px-4">
+          <h3 className="text-2xl font-bold mb-4">Social media settings</h3>
+          <div className="w-full max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            {socialLinks.map((link, idx) => (
+              <div key={idx} className="flex flex-col gap-2">
+                <input
+                  type="text"
+                  value={link.title}
+                  onChange={e => {
+                    setSocialLinks(prev => prev.map((l, i) => i === idx ? { ...l, title: e.target.value } : l));
+                  }}
+                  className="px-3 py-2 border-b border-gray-300 focus:outline-none focus:border-[#b539c5] bg-transparent text-base font-semibold"
+                />
+                <input
+                  type="text"
+                  value={link.url}
+                  onChange={e => {
+                    setSocialLinks(prev => prev.map((l, i) => i === idx ? { ...l, url: e.target.value } : l));
+                  }}
+                  className="px-3 py-2 border-b border-gray-300 focus:outline-none focus:border-[#b539c5] bg-transparent text-base"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
