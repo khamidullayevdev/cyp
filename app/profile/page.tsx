@@ -50,7 +50,7 @@ export default function ProfilePage() {
       if (!error && data) {
         setTemplateIds(data.map((row: any) => ({
           template_id: row.template_id,
-          portfolio_id: row.portfolio_id // yoki row.id
+          portfolio_id: row.portfolio_id
         })));
         console.log(data)
       }
@@ -81,6 +81,11 @@ export default function ProfilePage() {
     const confirmDelete = window.confirm('Are you sure you want to delete this portfolio?');
     if (!confirmDelete) return;
   
+    await supabase
+      .from('portfolios_standard')
+      .delete()
+      .eq('portfolio_id', portfolioId);
+  
     const { error } = await supabase.rpc('delete_portfolio_by_user_and_id', {
       p_user_id: user.id,
       p_portfolio_id: portfolioId,
@@ -91,7 +96,7 @@ export default function ProfilePage() {
       return;
     }
   
-    // O‘chirilgan portfolioni templates dan ham olib tashlash
+    // O'chirilgan portfolioni templates dan ham olib tashlash
     setTemplates(prev => prev.filter(t => t.portfolio_id !== portfolioId));
   };
 
