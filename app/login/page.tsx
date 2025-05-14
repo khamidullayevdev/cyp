@@ -50,6 +50,21 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        // redirectTo: 'http://localhost:3000/profile', // ixtiyoriy, kerak bo'lsa
+      },
+    });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (session) {
       localStorage.setItem('access_token', session.access_token);
@@ -79,7 +94,12 @@ export default function LoginPage() {
         <div className="flex-1 flex justify-center">
           <div className=" rounded-xl shadow-lg p-8 w-full max-w-md">
             <h2 className="text-3xl font-bold dark:text-white text-black mb-6">Log in</h2>
-            <button className="w-full flex items-center justify-center gap-2 border border-gray-600 rounded-md py-2 mb-6 transition" disabled>
+            <button
+              type="button"
+              className="w-full flex items-center justify-center gap-2 border border-gray-600 rounded-md py-2 mb-6 transition"
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+            >
               <FcGoogle className="text-2xl" />
               Continue with google
             </button>
