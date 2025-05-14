@@ -2,6 +2,8 @@
 
 import Image from 'next/image'
 import React, { useState, useRef } from 'react'
+import { supabase } from '@/lib/supabaseClient'
+import { useRouter } from 'next/navigation'
 
 type Project = {
   image: string;
@@ -77,6 +79,11 @@ const Browny = () => {
     { title: 'Tokyo 2019-2020', desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book" },
   ])
 
+  const router = useRouter()
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+
   const handleLoadMore = () => {
     setVisibleProjects(prev => Math.min(prev + 2, projects.length))
   }
@@ -136,11 +143,91 @@ const Browny = () => {
     }
   }
 
+  const handleCreatePortfolio = async () => {
+    setError(null)
+    setSuccess(null)
+    setLoading(true)
+    const access_token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
+    if (!access_token) {
+      router.push('/login')
+      return
+    }
+    // 1. Userni olish
+    const { data: { user }, error: userError } = await supabase.auth.getUser(access_token)
+    if (userError || !user) {
+      router.push('/login')
+      return
+    }
+    // 2. portfolios_standard jadvalidan userning portfoliolari sonini tekshirish
+    const { data: existing, error: existError } = await supabase
+      .from('portfolios_standard')
+      .select('id')
+      .eq('user_id', user.id)
+    if (existError) {
+      alert('Serverda xatolik.');
+      setLoading(false)
+      return
+    }
+    if (existing && existing.length >= 1) {
+      alert('Your limit is full. You can only create one portfolio.');
+      setLoading(false)
+      return
+    }
+    // 3. portfolios jadvaliga yangi portfolio qo'shish
+    const { data: newPortfolio, error: portfolioError } = await supabase
+      .from('portfolios')
+      .insert({
+        user_id: user.id,
+        template_id: 'f277f271-8aef-486b-ad63-24209c62bdee', // Browny template id
+        name: heroTitle,
+        about: aboutMeText,
+        education: educations,
+        skills: [
+          { skill_name: 'Skill 1', description: '' },
+          { skill_name: 'Skill 2', description: '' },
+          { skill_name: 'Skill 3', description: '' },
+        ],
+        contact: socialLinks,
+        projects: projects,
+        job_position: '',
+      })
+      .select()
+      .single()
+    if (portfolioError || !newPortfolio) {
+      alert('Portfolio creation failed. ' + (portfolioError?.message || ''));
+      setLoading(false)
+      return
+    }
+    // 4. portfolios_standard jadvaliga yozuv qo'shish
+    const { error: stdError } = await supabase
+      .from('portfolios_standard')
+      .insert({
+        user_id: user.id,
+        template_id: 'f277f271-8aef-486b-ad63-24209c62bdee',
+        portfolio_id: newPortfolio.id,
+      })
+    if (stdError) {
+      alert('Failed to add to standard portfolios. ' + (stdError?.message || ''));
+      setLoading(false)
+      return
+    }
+    alert('Portfolio created successfully!');
+    setLoading(false)
+  }
+
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-purple-100 to-white">
+    <div className="min-h-screen relative w-full overflow-x-hidden bg-gradient-to-b from-purple-100 to-white">
+      <button
+        className="bg-[#b539c5] fixed top-10 left-[50%] translate-x-[-50%] z-[9999999999999999] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#a028b0] transition"
+        onClick={handleCreatePortfolio}
+        disabled={loading}
+      >
+        {loading ? 'Yaratilmoqda...' : 'Create Portfolio'}
+      </button>
        <nav className="w-full py-[40px] text-black sticky top-0 z-10 backdrop-blur">
         <div className="container mx-auto flex justify-between items-center px-4">
           <span className="font-bold text-[20px]">Chetan.</span>
+          
           {/* Desktop menu */}
           <ul className="hidden md:flex space-x-6 text-[16px] font-medium">
             <li><a href="#work" className="hover:text-[#b539c5] transition-colors">Work</a></li>
@@ -404,6 +491,8 @@ const Browny = () => {
            </div>
          </div>
        </section>
+       {error && <div className="text-red-500 text-center mt-4">{error}</div>}
+       {success && <div className="text-green-600 text-center mt-4">{success}</div>}
        <footer className='text-center py-4'>
          <p className='text-black'>© 2025 CYP</p>
        </footer>
