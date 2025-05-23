@@ -177,7 +177,7 @@ const Browny = () => {
         template_id: 'f277f271-8aef-486b-ad63-24209c62bdee', // Browny template id
         name: heroTitle,
         job_position: '',
-        projects: projects,
+        projects: projects.slice(0, visibleProjects),
         about: aboutMeText,
         education: educations,
         skills: [
@@ -212,6 +212,21 @@ const Browny = () => {
     setLoading(false)
   }
 
+  const handleRemoveEducation = (idx: number) => {
+    if (educations.length > 1) {
+      setEducations(prev => prev.filter((_, i) => i !== idx));
+    }
+  };
+
+  const handleAddEducation = () => {
+    if (educations.length < 4) {
+      setEducations(prev => [
+        ...prev,
+        { title: '', desc: '' }
+      ]);
+    }
+  };
+
   return (
     <div className="min-h-screen relative w-full overflow-x-hidden bg-gradient-to-b from-purple-100 to-white">
       <button
@@ -219,7 +234,7 @@ const Browny = () => {
         onClick={handleCreatePortfolio}
         disabled={loading}
       >
-        {loading ? 'Yaratilmoqda...' : 'Create Portfolio'}
+        {loading ? 'Loading...' : 'Create Portfolio'}
       </button>
        <nav className="w-full py-[40px] text-black sticky top-0 z-10 backdrop-blur">
         <div className="container mx-auto flex justify-between items-center px-4">
@@ -430,9 +445,28 @@ const Browny = () => {
                    className="text-[14px] sm:text-[15px] text-white focus:outline-none bg-transparent w-full resize-y min-h-[108px]"
                    rows={2}
                  />
+                 {educations.length > 1 && (
+                   <button
+                     onClick={() => handleRemoveEducation(idx)}
+                     className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center z-20"
+                     title="Remove"
+                   >
+                     &minus;
+                   </button>
+                 )}
                </div>
              ))}
            </div>
+           {educations.length < 4 && (
+             <div className="w-full flex justify-center mt-10">
+               <button
+                 onClick={handleAddEducation}
+                 className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#b539c5] transition-colors"
+               >
+                 + Load More
+               </button>
+             </div>
+           )}
          </div>
        </section>
        <section>

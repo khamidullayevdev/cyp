@@ -153,11 +153,11 @@ const Browny = () => {
        <section className="w-full py-16">
          <div className="container mx-auto px-4">
            <h2 className="text-5xl sm:text-7xl md:text-8xl font-bold text-black text-center mb-8 leading-tight">Education</h2>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 sm:gap-4 max-w-[74rem] mx-auto">
+           <div className="flex justify-center items-center flex-wrap gap-0 sm:gap-4 max-w-[74rem] mx-auto">
              {portfolio.education && Array.isArray(portfolio.education) && portfolio.education.map((edu: any, idx: number) => (
                <div
                  key={idx}
-                 className={`p-3 sm:p-7 shadow-lg min-h-[250px] bg-gradient-to-br from-purple-200 to-purple-100 rounded-3xl text-white flex flex-col gap-4 ${
+                 className={`p-3 sm:p-7 max-w-[500px] shadow-lg min-h-[250px] bg-gradient-to-br from-purple-200 to-purple-100 rounded-3xl text-white flex flex-col gap-4 ${
                    idx === 0 ? 'rotate-[-5deg]' :
                    idx === 1 ? 'rotate-[10deg]' :
                    idx === 2 ? 'rotate-[5deg]' :
