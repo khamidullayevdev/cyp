@@ -46,8 +46,7 @@ export default function AboutPage() {
             >
               Tutorial
             </Link>{" "}
-            section to view the user guide. If you would like to support the
-            project, you are welcome to make a donation.
+            section to view the user guide. Supporting the project is as easy as using the platform.
           </p>
         </div>
 
@@ -56,21 +55,19 @@ export default function AboutPage() {
         </h2>
         <div className="my-4">
           <p className="text-lg text-default-600">
-            Hello, I am the creator of this project, and I am from Uzbekistan. I
-            started developing this project on{" "}
+          Hello! I'm the creator of this project and I'm from Uzbekistan. I started developing it on {" "}
             <a
               className="text-primary font-medium hover:underline"
-              href="https://github.com/ammoriddin"
+              href="https://github.com/khamidullayevdev"
             >
-              Github
+              GitHub
             </a>{" "}
-            April 27, 2025, and I am continuously working to improve it. To
-            learn more about me, you can visit my{" "}
+            on May 1st, 2025, and I've been continuously working to improve it. To learn more about me, feel free to visit my {" "}
             <a
               className="text-primary font-medium hover:underline"
-              href="https://github.com/ammoriddin"
+              href="https://x.com/khamidev"
             >
-              Github
+              Twitter
             </a>{" "}
             page. I hope you enjoy using this platform!
           </p>
